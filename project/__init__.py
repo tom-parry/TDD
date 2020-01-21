@@ -1,3 +1,4 @@
+import os
 from flask import Flask, jsonify
 from flask_restplus import Resource, Api
 
@@ -6,8 +7,11 @@ app = Flask(__name__)
 # add api to app
 api = Api(app)
 
-# set app config using object we declared
-app.config.from_object('project.config.DevelopmentConfig')
+
+# get app settings from ENV variables
+app_settings=os.getenv('APP_SETTINGS')
+# configure app using app settings
+app.config.from_object(app_settings)
 
 # declare simple ping class
 class Ping(Resource):
@@ -16,7 +20,6 @@ class Ping(Resource):
             'status': 'success',
             'message': 'Somebody poisoned the water hole'
         }
-
 
 # add ping resource to app
 api.add_resource(Ping, '/ping')

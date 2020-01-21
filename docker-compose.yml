@@ -1,0 +1,18 @@
+version: '3.7'
+
+services:
+    # create a user service from Dockerfile
+    users:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        # mount code into container
+        # without this, image would need to be rebuilt for every code change
+        volumes:
+            - .:/user/src/app
+        ports:
+            - 5001:5000
+        environment:
+            - FLASK_APP=project/__init__.py
+            - FLASK_ENV=development
+            - APP_SETTINGS=project.config.DevelopmentConfig
