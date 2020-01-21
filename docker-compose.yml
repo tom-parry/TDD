@@ -4,9 +4,12 @@ services:
     # create a user service from Dockerfile
     users:
         build:
+            # where service is located
             context: .
+            # where to find Dockerfile for service
             dockerfile: Dockerfile
-        # mount code into container
+        entrypoint: ['/usr/src/app/entrypoint.sh']
+        # volumes help mount code into container
         # without this, image would need to be rebuilt for every code change
         volumes:
             - .:/user/src/app
@@ -16,3 +19,19 @@ services:
             - FLASK_APP=project/__init__.py
             - FLASK_ENV=development
             - APP_SETTINGS=project.config.DevelopmentConfig
+        depends_on: 
+            - users-db
+
+    # set up database service
+    users-db:
+        build:
+            # where service is located
+            context: ./project/db
+            # where to find Dockerfile for service
+            dockerfile: Dockerfile
+        # this port can be used when other services need this service
+        expose:
+            - 5432
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
