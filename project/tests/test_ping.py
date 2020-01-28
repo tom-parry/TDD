@@ -5,5 +5,5 @@ def test_ping(test_app):
     resp = client.get('/ping')
     data = json.loads(resp.data.decode())
     assert resp.status_code == 200
-    assert 'Somebody poisoned the water hole' in data['message']
+    assert 'el camino, el el camino' in data['message']
     assert 'success' in data['status']

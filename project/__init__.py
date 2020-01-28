@@ -3,42 +3,29 @@ from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_restplus import Resource, Api
 
-# declare app instance
-app = Flask(__name__)
-# add api to app
-api = Api(app)
 
-
-# get app settings from ENV variable
-app_settings=os.getenv('APP_SETTINGS')
-# configure app using app settings
-app.config.from_object(app_settings)
 
 # instantiate DB
-db = SQLAlchemy(app)
+db = SQLAlchemy()
 
-# schema for users table, extends SQLAlchemy model
-class User(db.Model):
-    # table name
-    __tablename__ = 'users'
-    # columns set up
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    username = db.Column(db.String(128), nullable=False)
-    email = db.Column(db.String(128), nullable=False)
-    active = db.Column(db.Boolean(), default=True, nullable=False)
+def create_app(script_info=None):
+    # instantiate app
+    app = Flask(__name__)
 
-    # init function
-    def __init__(self, username, email):
-        self.username = username
-        self.email = email
+    # set config
+    app_settings = os.getenv('APP_SETTINGS')
+    app.config.from_object(app_settings)
 
-# declare simple ping class
-class Ping(Resource):
-    def get(self):
-        return {
-            'status': 'success',
-            'message': 'Somebody poisoned the water hole'
-        }
+    # extensions
+    db.init_app(app)
 
-# add ping resource to app
-api.add_resource(Ping, '/ping')
+    # register blueprints
+    from project.api.ping import ping_blueprint
+    app.register_blueprint(ping_blueprint)
+
+    # shell context for flask cli
+    @app.shell_context_processor
+    def ctx():
+        return {'app': app, 'db': db}
+
+    return app
