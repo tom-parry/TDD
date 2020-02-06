@@ -16,7 +16,7 @@ ENV PYTHONUNBUFFERED 1
 WORKDIR /usr/src/app
 
 # add & install requirements
-COPY ./requirements.txt .
+COPY ./requirements.txt /usr/src/app/requirements.txt
 RUN pip install -r requirements.txt
 
 # add entrypoint
