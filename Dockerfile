@@ -11,6 +11,7 @@ RUN apk update && \
 # ENV variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
+ENV FLASK_ENV development
 
 # set working directory
 WORKDIR /usr/src/app
