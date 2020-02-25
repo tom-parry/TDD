@@ -4,4 +4,4 @@ This repository shows the current state of my progress on the **Test-Driven Deve
 
 Most recent chapter completed: Code Coverage and Quality
 
-[![pipeline status](https://gitlab.com/YOUR_GITLAB_NAMESPACE/flask-tdd-docker/badges/master/pipeline.svg)](https://gitlab.com/YOUR_GITLAB_NAMESPACE/flask-tdd-docker/commits/master)
+[![pipeline status](https://gitlab.com/tom-parry/tdd/badges/master/pipeline.svg)](https://gitlab.com/tom-parry/tdd/commits/master)
