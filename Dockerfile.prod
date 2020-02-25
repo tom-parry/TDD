@@ -1,0 +1,24 @@
+FROM python:3.8.0-alpine
+
+RUN apk update && \
+    apk add --virtual build-deps gcc python-dev musl-dev && \
+    apk add postgresql-dev && \
+    apk add netcat-openbsd
+
+WORKDIR /usr/src/app
+
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+ENV FLASK_ENV production
+ENV APP_SETTINGS project.config.ProductionConfig
+ENV DATABASE_URL postgres://yoculjcnhxlcvf:126b0525c7ee8f752459735e41826ec112d670f24cdcdd9a09d497c79f282466@ec2-54-80-184-43.compute-1.amazonaws.com:5432/dbiga0u41ndrd5
+
+COPY ./requirements.txt /usr/src/app/requirements.txt
+RUN pip install -r requirements.txt
+
+COPY . /usr/src/app
+
+RUN adduser -D myuser
+USER myuser
+
+CMD gunicorn --bind 0.0.0.0:$PORT manage:app
