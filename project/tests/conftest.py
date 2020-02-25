@@ -9,6 +9,7 @@ from project.api.models import User
 #   module - once per test module
 #   session - once per test session
 
+
 @pytest.fixture(scope='module')
 def test_app():
     app = create_app()
@@ -16,12 +17,14 @@ def test_app():
     with app.app_context():
         yield app   # testing happens here
 
+
 @pytest.fixture(scope='module')
 def test_database():
     db.create_all()
     yield db        # testing happens here
     db.session.remove()
     db.drop_all()
+
 
 @pytest.fixture(scope='function')
 def add_user():

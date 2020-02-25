@@ -1,10 +1,10 @@
 from flask import Blueprint, request
-from flask_restplus import Resource, Api, fields
+from flask_restplus import Api, Resource, fields
 
 from project import db
 from project.api.models import User
 
-#create blueprint & add it to api
+# create blueprint & add it to api
 users_blueprint = Blueprint('users', __name__)
 api = Api(users_blueprint)
 
@@ -15,6 +15,7 @@ user = api.model('User', {
     'email': fields.String(required=True),
     'created_date': fields.DateTime,
 })
+
 
 class UsersList(Resource):
     # attach model to method & use it to validate payload
@@ -43,6 +44,7 @@ class UsersList(Resource):
     @api.marshal_with(user, as_list=True)
     def get(self):
         return User.query.all(), 200
+
 
 class Users(Resource):
     # use model as a serializer to generate a JSON object with fields from the model

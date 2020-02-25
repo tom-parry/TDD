@@ -1,5 +1,6 @@
 import os
 
+
 # tests for project/config.py
 # test configs set in development configuration
 def test_development_config(test_app):
@@ -8,6 +9,7 @@ def test_development_config(test_app):
     assert not test_app.config['TESTING']
     assert test_app.config['SQLALCHEMY_DATABASE_URI'] == os.environ.get('DATABASE_URL')
 
+
 # test configs set in testing configuration
 def test_testing_config(test_app):
     test_app.config.from_object('project.config.TestingConfig')
@@ -15,6 +17,7 @@ def test_testing_config(test_app):
     assert test_app.config['TESTING']
     assert not test_app.config['PRESERVE_CONTEXT_ON_EXCEPTION']
     assert test_app.config['SQLALCHEMY_DATABASE_URI'] == os.environ.get('DATABASE_TEST_URL')
+
 
 # test configs set in production configuration
 def test_production_config(test_app):
